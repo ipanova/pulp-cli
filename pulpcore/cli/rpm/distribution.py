@@ -1,4 +1,5 @@
 import click
+from pulp_glue.common.context import PluginRequirement
 from pulp_glue.common.i18n import get_translation
 from pulp_glue.rpm.context import PulpRpmDistributionContext, PulpRpmRepositoryContext
 
@@ -17,6 +18,7 @@ from pulpcore.cli.common.generic import (
     pass_pulp_context,
     pulp_group,
     pulp_labels_option,
+    pulp_option,
     resource_option,
     role_command,
     show_command,
@@ -65,6 +67,14 @@ update_options = [
         help=_(
             "Publication to be served. This will unset the 'repository' and disable "
             "auto-distribute."
+        ),
+    ),
+    pulp_option(
+        "--generate-repo-config/--no-generate-repo-config",
+        needs_plugins=[PluginRequirement("rpm", specifier=">=3.23.dev")],
+        help=_(
+            "Option specifying whether ``*.repo`` files will be generated and served."
+            " Defaults to False."
         ),
     ),
     repository_option,
